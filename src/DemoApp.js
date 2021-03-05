@@ -110,37 +110,22 @@ class DemoApp extends Component{
         this.renderer4.setClearColor(0xeeeeee, 1.0)
 
         this.cameraControl1 = new orbControls(this.camera1,this.renderer.domElement)
-        this.loadRef()
+        this.mainBody.appendChild(this.renderer.domElement)
+        //this.loadRef()
         this.animate()
     }
 
     componentDidUpdate(preProps, preState){
        
 
-        if(preState.frontViewSize !== this.state.frontViewSize && this.frontView)
-        {
-            this.resizeFrontView()
-        }
-
-        if(preState.sideViewSize !== this.state.sideViewSize && this.sideView)
-        {
-            this.resizeSideView()
-        }
-
-        if(preState.topViewSize !== this.state.topViewSize && this.topView)
-        {
-            this.resizeTopView()
-        }
+        
     }
 
     componentWillUnmount() {
     }
 
-    loadRef=()=>{
-        
-            
-        this.mainBody.appendChild(this.renderer.domElement)
-              
+    loadRef=()=>{         
+        this.mainBody.appendChild(this.renderer.domElement)        
     }
 
     resizeFrontView=()=>{
