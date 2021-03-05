@@ -11,6 +11,7 @@ class DemoApp extends Component{
     constructor(props) {
         super(props)
         this.state={
+            mainCanvasReady:false,
             frontViewSize:{
                 w:null,
                 h:null
@@ -60,7 +61,13 @@ class DemoApp extends Component{
         this.renderer = new THREE.WebGLRenderer();
 		this.renderer.setPixelRatio( window.devicePixelRatio );
 		this.renderer.setSize( 1920, 800);
-		this.mainBody.appendChild( this.renderer.domElement );
+        
+        if(this.mount)
+        {
+            this.mount.appendChild( this.renderer.domElement)
+            this.setState({mainCanvasReady:true})
+        }
+		
         this.sceneGrid = new THREE.GridHelper(50,50)
         this.scene.add(this.sceneGrid)
 
@@ -110,6 +117,15 @@ class DemoApp extends Component{
     }
 
     componentDidUpdate(preProps, preState){
+        if(!this.state.mainCanvasReady)
+        {
+            if(this.mount)
+            {
+                this.mount.appendChild( this.renderer.domElement)
+                this.setState({mainCanvasReady:true})
+            }
+        }
+
         if(preState.frontViewSize !== this.state.frontViewSize && this.frontView)
         {
             this.resizeFrontView()
