@@ -46,6 +46,7 @@ class DemoApp extends Component{
     }
 
     componentDidMount(){     
+        this.loadRef()
 
         this.deployState();
         const aspect = 1920 / 800;
