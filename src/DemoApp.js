@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as THREE from 'three';
 import orbControls from './OrbitControls';
 import Stats from 'stats.js';
-import {DnDContainer, DnDBackgroundComponent, DnDLayout} from 'dnd-box'
+import {DnDContainer, DnDLayout} from 'dnd-box'
 import OrbitControls from './OrbitControls';
 import RotationMenu from './RotationMenu'
 import SelectedObjInfo from './SelectedObjInfo'
@@ -11,7 +11,7 @@ class DemoApp extends Component{
     constructor(props) {
         super(props)
         this.state={
-            mainCanvasRef:null,
+            //mainCanvasRef:null,
 
             frontViewSize:{
                 w:null,
@@ -46,7 +46,7 @@ class DemoApp extends Component{
     }
 
     componentDidMount(){     
-        this.loadRef()
+      
         this.deployState();
         const aspect = 1920 / 800;
 		this.camera1 = new THREE.PerspectiveCamera( 
@@ -64,12 +64,6 @@ class DemoApp extends Component{
 		this.renderer.setPixelRatio( window.devicePixelRatio );
 		this.renderer.setSize( 1920, 800);
         
-        if(this.mount)
-        {
-            
-            //this.mount.appendChild( this.renderer.domElement)
-            //this.setState({mainCanvasReady:true})
-        }
 		
         this.sceneGrid = new THREE.GridHelper(50,50)
         this.scene.add(this.sceneGrid)
@@ -116,14 +110,12 @@ class DemoApp extends Component{
         this.renderer4.setClearColor(0xeeeeee, 1.0)
 
         this.cameraControl1 = new orbControls(this.camera1,this.renderer.domElement)
+        this.loadRef()
         this.animate()
     }
 
     componentDidUpdate(preProps, preState){
-        if(!preState.mainCanvasRef)
-        {
-            this.loadRef()
-        }
+       
 
         if(preState.frontViewSize !== this.state.frontViewSize && this.frontView)
         {
@@ -145,16 +137,10 @@ class DemoApp extends Component{
     }
 
     loadRef=()=>{
-        if(this.mount)
-        {
-            this.setState({mainCanvasRef:this.mount},()=>{
-                this.state.mainCanvasRef.appendChild(this.renderer.domElement)
-            })
-        }
-        else
-        {
-            this.setState({mainCanvasRef:null})
-        }
+        
+            
+        this.mainBody.appendChild(this.renderer.domElement)
+              
     }
 
     resizeFrontView=()=>{
@@ -504,10 +490,7 @@ class DemoApp extends Component{
                     <div style={{width:350, lineHeight:'50px', float:'right'}}>{"dnd-box demo : used in CAD like application"}</div>
                 </div>
                 <DnDLayout backgroundColor={'pink'} width={1920} height={800} boxColor={''} boxHeaderColor={''} boxTabColor={''} boxHeaderHoverColor={''} boxTabHoverColor={''} boxTabSelectedColor={''} iconHoverColor={''} boxTabRadius={'0px 10px 0px 0px'} boxesSetting={boxesSetting} openContainer={this.state.showContainer}  tabHeight={25} getBoxesState={this.getBoxesState}>
-                    <DnDBackgroundComponent>
-                        <div ref={(mount) => { this.mount = mount }}>
-                        </div>
-                    </DnDBackgroundComponent>
+                   
                     <DnDContainer containerTabTitle={"Front View"} containerID={1} boxID={'A'}>
                         <div style={{width:'100%',height:'100%',overflow:'hidden'}} ref={(frontView) => { this.frontView = frontView }}>
                         </div>
