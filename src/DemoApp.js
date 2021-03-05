@@ -4,8 +4,8 @@ import orbControls from './OrbitControls';
 import Stats from 'stats.js';
 import {DnDContainer, DnDBackgroundComponent, DnDLayout} from 'dnd-box'
 import OrbitControls from './OrbitControls';
-//import RotationMenu from './RotationMenu'
-//import SelectedObjInfo from './SelectedObjInfo'
+import RotationMenu from './RotationMenu'
+import SelectedObjInfo from './SelectedObjInfo'
 
 class DemoApp extends Component{
     constructor(props) {
@@ -60,7 +60,7 @@ class DemoApp extends Component{
         this.renderer = new THREE.WebGLRenderer();
 		this.renderer.setPixelRatio( window.devicePixelRatio );
 		this.renderer.setSize( 1920, 800);
-		this.mainBody.appendChild( this.renderer.domElement );
+		this.mount.appendChild( this.renderer.domElement );
         this.sceneGrid = new THREE.GridHelper(50,50)
         this.scene.add(this.sceneGrid)
 
@@ -110,7 +110,20 @@ class DemoApp extends Component{
     }
 
     componentDidUpdate(preProps, preState){
-      
+        if(preState.frontViewSize !== this.state.frontViewSize && this.frontView)
+        {
+            this.resizeFrontView()
+        }
+
+        if(preState.sideViewSize !== this.state.sideViewSize && this.sideView)
+        {
+            this.resizeSideView()
+        }
+
+        if(preState.topViewSize !== this.state.topViewSize && this.topView)
+        {
+            this.resizeTopView()
+        }
     }
 
     componentWillUnmount() {
@@ -124,7 +137,7 @@ class DemoApp extends Component{
         this.cameraControl2.enableRotate = false
 
         this.renderer2.setSize(this.state.frontViewSize.w-1, this.state.frontViewSize.h-1)
-        //this.frontView.appendChild( this.renderer2.domElement )
+        this.frontView.appendChild( this.renderer2.domElement )
 
     }
 
@@ -135,7 +148,7 @@ class DemoApp extends Component{
         }
         this.cameraControl3.enableRotate = false
         this.renderer3.setSize(this.state.sideViewSize.w-1, this.state.sideViewSize.h-1)
-        //this.sideView.appendChild( this.renderer3.domElement )
+        this.sideView.appendChild( this.renderer3.domElement )
     }
 
     resizeTopView=()=>{
@@ -145,7 +158,7 @@ class DemoApp extends Component{
         }
         this.cameraControl4.enableRotate = false
         this.renderer4.setSize(this.state.topViewSize.w-1, this.state.topViewSize.h-1)
-        //this.topView.appendChild( this.renderer4.domElement )
+        this.topView.appendChild( this.renderer4.domElement )
     }
 
     deployState = () => {
@@ -156,10 +169,86 @@ class DemoApp extends Component{
     }
 
     animate=()=>{
-        
+        if(this.frontView)
+        {
+            if(this.frontView.clientWidth !== this.state.frontViewSize.w || this.frontView.clientHeight !== this.state.frontViewSize.h)
+            {
+                this.setState({
+                    frontViewSize:{
+                        w:this.frontView.clientWidth,
+                        h:this.frontView.clientHeight
+                    }
+                })
+            }
+        }
+        else
+        {
+            if(this.state.frontViewSize.w || this.state.frontViewSize.h)
+            {
+                this.setState({
+                    frontViewSize:{
+                        w:null,
+                        h:null
+                    }
+                })
+            }
+        }
+
+        if(this.sideView)
+        {
+            if(this.sideView.clientWidth !== this.state.sideViewSize.w || this.sideView.clientHeight !== this.state.sideViewSize.h)
+            {
+                this.setState({
+                    sideViewSize:{
+                        w:this.sideView.clientWidth,
+                        h:this.sideView.clientHeight
+                    }
+                })
+            }
+        }
+        else
+        {
+            if(this.state.sideViewSize.w || this.state.sideViewSize.h)
+            {
+                this.setState({
+                    sideViewSize:{
+                        w:null,
+                        h:null
+                    }
+                })
+            }
+        }
+
+        if(this.topView)
+        {
+            if(this.topView.clientWidth !== this.state.topViewSize.w || this.topView.clientHeight !== this.state.topViewSize.h)
+            {
+                this.setState({
+                    topViewSize:{
+                        w:this.topView.clientWidth,
+                        h:this.topView.clientHeight
+                    }
+                })
+            }
+        }
+        else
+        {
+            if(this.state.topViewSize.w || this.state.topViewSize.h)
+            {
+                this.setState({
+                    topViewSize:{
+                        w:null,
+                        h:null
+                    }
+                })
+            }
+        }
+
         this.stats.begin();
         this.renderer.render(this.scene, this.camera1)
-        
+        this.renderer2.render(this.scene, this.camera2)
+        this.renderer3.render(this.scene, this.camera3)
+        this.renderer4.render(this.scene, this.camera4)
         this.mesh1.rotation.x += this.state.rotationMesh1.x
         this.mesh1.rotation.y += this.state.rotationMesh1.y
         this.mesh1.rotation.z += this.state.rotationMesh1.z
@@ -373,32 +462,35 @@ class DemoApp extends Component{
 
         return(
             <div ref={(mainBody)=>{this.mainBody = mainBody}} style={{width:'100%',height:'100%',borderTop:"1px solid black", borderBottom:"1px solid black"}}  onMouseDown={this.threeDLayerMouseDown}>
-            <div style={{width:1000,height:50,left:100,position:'absolute',padding:10}}>
-                <button style={{float:'left',height:50}} onClick={this.showContainerClick}>Show Default DnDContainer</button>
-                <div style={{width:350, lineHeight:'50px', float:'right'}}>{"dnd-box demo : used in CAD like application"}</div>
+                <div style={{width:1000,height:50,left:100,position:'absolute',padding:10}}>
+                    <button style={{float:'left',height:50}} onClick={this.showContainerClick}>Show Default DnDContainer</button>
+                    <div style={{width:350, lineHeight:'50px', float:'right'}}>{"dnd-box demo : used in CAD like application"}</div>
+                </div>
+                <DnDLayout backgroundColor={'pink'} width={1920} height={800} boxColor={''} boxHeaderColor={''} boxTabColor={''} boxHeaderHoverColor={''} boxTabHoverColor={''} boxTabSelectedColor={''} iconHoverColor={''} boxTabRadius={'0px 10px 0px 0px'} boxesSetting={boxesSetting} openContainer={this.state.showContainer}  tabHeight={25} getBoxesState={this.getBoxesState}>
+                    <DnDBackgroundComponent>
+                        <div ref={(mount) => { this.mount = mount }}>
+                        </div>
+                    </DnDBackgroundComponent>
+                    <DnDContainer containerTabTitle={"Front View"} containerID={1} boxID={'A'}>
+                        <div style={{width:'100%',height:'100%',overflow:'hidden'}} ref={(frontView) => { this.frontView = frontView }}>
+                        </div>
+                    </DnDContainer>
+                    <DnDContainer containerTabTitle={"Side View"} containerID={2} boxID={'B'}>
+                        <div style={{width:'100%',height:'100%',overflow:'hidden'}} ref={(sideView) => { this.sideView = sideView }}>                                 
+                        </div>
+                    </DnDContainer>
+                    <DnDContainer containerTabTitle={"Top View"} containerID={3} boxID={'C'}>
+                        <div style={{width:'100%',height:'100%',overflow:'hidden'}} ref={(topView) => { this.topView = topView }}>                                 
+                        </div>
+                    </DnDContainer>
+                    <DnDContainer containerTabTitle={"Rotation Speed"} containerID={4} boxID={'D'}>             
+                        <RotationMenu rotationMesh1={this.state.rotationMesh1} rotationMesh2={this.state.rotationMesh2} returnRotation={this.returnRotation}/>          
+                    </DnDContainer>
+                    <DnDContainer containerTabTitle={"Obj Info"} containerID={5} boxID={'D'}>
+                        <SelectedObjInfo selectedObjInfo={this.state.selectedObjInfo}/>       
+                    </DnDContainer>        
+                </DnDLayout>
             </div>
-            <DnDLayout backgroundColor={'pink'} width={1920} height={800} boxColor={''} boxHeaderColor={''} boxTabColor={''} boxHeaderHoverColor={''} boxTabHoverColor={''} boxTabSelectedColor={''} iconHoverColor={''} boxTabRadius={'0px 10px 0px 0px'} boxesSetting={boxesSetting} openContainer={this.state.showContainer}  tabHeight={25} getBoxesState={this.getBoxesState}>
-                <DnDBackgroundComponent>
-                    <div ref={(mount) => { this.mount = mount }}>
-                    </div>
-                </DnDBackgroundComponent>
-                <DnDContainer containerTabTitle={"Front View"} containerID={1} boxID={'A'}>
-                   
-                </DnDContainer>
-                <DnDContainer containerTabTitle={"Side View"} containerID={2} boxID={'B'}>
-                  
-                </DnDContainer>
-                <DnDContainer containerTabTitle={"Top View"} containerID={3} boxID={'C'}>
-                   
-                </DnDContainer>
-                <DnDContainer containerTabTitle={"Rotation Speed"} containerID={4} boxID={'D'}>             
-                            
-                </DnDContainer>
-                <DnDContainer containerTabTitle={"Obj Info"} containerID={5} boxID={'D'}>
-                    
-                </DnDContainer>        
-            </DnDLayout>
-        </div>
         )
     }
 }
