@@ -151,6 +151,10 @@ class DemoApp extends Component{
                 this.state.mainCanvasRef.appendChild(this.renderer.domElement)
             })
         }
+        else
+        {
+            this.setState({mainCanvasRef:null})
+        }
     }
 
     resizeFrontView=()=>{
