@@ -68,7 +68,7 @@ class DemoApp extends Component {
         return (
             <div style={{widht:'100vw',height:'100vh'}}>
                 <div style={{display:'flex',width:'100%',height:'50px'}}> 
-                    <button onClick={this.toggleDnDLayoutClick}>3</button>
+                    <button onClick={this.toggleDnDLayoutClick}>4</button>
                     <button onClick={this.showContainerClick}>Show Default DnDContainer</button>
                 </div>
                 {
