@@ -112,13 +112,11 @@ class DemoApp extends Component{
         this.cameraControl1 = new orbControls(this.camera1,this.renderer.domElement)
         this.mainBody.appendChild(this.renderer.domElement)
         //this.loadRef()
-        this.animate()
+        //this.animate()
     }
 
     componentDidUpdate(preProps, preState){
        
-
-        
     }
 
     componentWillUnmount() {
