@@ -11,7 +11,8 @@ class DemoApp extends Component{
     constructor(props) {
         super(props)
         this.state={
-            mainCanvasReady:false,
+            mainCanvasRef:null,
+
             frontViewSize:{
                 w:null,
                 h:null
@@ -45,6 +46,7 @@ class DemoApp extends Component{
     }
 
     componentDidMount(){     
+
         this.deployState();
         const aspect = 1920 / 800;
 		this.camera1 = new THREE.PerspectiveCamera( 
@@ -64,8 +66,9 @@ class DemoApp extends Component{
         
         if(this.mount)
         {
-            this.mount.appendChild( this.renderer.domElement)
-            this.setState({mainCanvasReady:true})
+            
+            //this.mount.appendChild( this.renderer.domElement)
+            //this.setState({mainCanvasReady:true})
         }
 		
         this.sceneGrid = new THREE.GridHelper(50,50)
@@ -117,13 +120,9 @@ class DemoApp extends Component{
     }
 
     componentDidUpdate(preProps, preState){
-        if(!this.state.mainCanvasReady)
+        if(!preState.mainCanvasRef)
         {
-            if(this.mount)
-            {
-                this.mount.appendChild( this.renderer.domElement)
-                this.setState({mainCanvasReady:true})
-            }
+            this.loadRef()
         }
 
         if(preState.frontViewSize !== this.state.frontViewSize && this.frontView)
@@ -143,6 +142,15 @@ class DemoApp extends Component{
     }
 
     componentWillUnmount() {
+    }
+
+    loadRef=()=>{
+        if(this.mount)
+        {
+            this.setState({mainCanvasRef:this.mount},()=>{
+                this.state.mainCanvasRef.appendChild(this.renderer.domElement)
+            })
+        }
     }
 
     resizeFrontView=()=>{
@@ -372,26 +380,30 @@ class DemoApp extends Component{
     detectObjectSelectedOrNot=(e)=>{
         const rayCaster = new THREE.Raycaster()
         const mouseToken = new THREE.Vector2()
-        this.rect = this.mount.getBoundingClientRect()
-        mouseToken.x = ((e.clientX-this.rect.left)/this.mount.clientWidth)*2-1
-        mouseToken.y = -((e.clientY-this.rect.top)/this.mount.clientHeight)*2+1
-        rayCaster.setFromCamera(mouseToken, this.camera1)
+
+        if(this.state.mainCanvasRef)
+        {            
+            let rect = this.state.mainCanvasRef.getBoundingClientRect()
+            mouseToken.x = ((e.clientX-rect.left)/this.state.mainCanvasRef.clientWidth)*2-1
+            mouseToken.y = -((e.clientY-rect.top)/this.state.mainCanvasRef.clientHeight)*2+1
+            rayCaster.setFromCamera(mouseToken, this.camera1)
     
-        let intersects = rayCaster.intersectObjects(this.scene.children)
+            let intersects = rayCaster.intersectObjects(this.scene.children)
         
-        if(intersects.length>0)
-        {
-            for(var i=0; i <intersects.length; i++)
+            if(intersects.length>0)
             {
-                if(intersects[i].object.type === 'Mesh')
+                for(var i=0; i <intersects.length; i++)
                 {
-                    return intersects[i].object
-                }   
+                    if(intersects[i].object.type === 'Mesh')
+                    {
+                        return intersects[i].object
+                    }   
+                }
             }
-        }
-        else
-        {
-            return null
+            else
+            {
+                return null
+            }
         }
     }
 
