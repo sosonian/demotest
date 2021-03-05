@@ -4,8 +4,8 @@ import orbControls from './OrbitControls';
 import Stats from 'stats.js';
 import {DnDContainer, DnDLayout} from 'dnd-box'
 import OrbitControls from './OrbitControls';
-import RotationMenu from './RotationMenu'
-import SelectedObjInfo from './SelectedObjInfo'
+//import RotationMenu from './RotationMenu'
+//import SelectedObjInfo from './SelectedObjInfo'
 
 class DemoApp extends Component{
     constructor(props) {
@@ -414,10 +414,10 @@ class DemoApp extends Component{
                         </div>
                     </DnDContainer>
                     <DnDContainer containerTabTitle={"Rotation Speed"} containerID={4} boxID={'D'}>             
-                        <RotationMenu rotationMesh1={this.state.rotationMesh1} rotationMesh2={this.state.rotationMesh2} returnRotation={this.returnRotation}/>          
+                             
                     </DnDContainer>
                     <DnDContainer containerTabTitle={"Obj Info"} containerID={5} boxID={'D'}>
-                        <SelectedObjInfo selectedObjInfo={this.state.selectedObjInfo}/>       
+                      
                     </DnDContainer>        
                 </DnDLayout>
             </div>
