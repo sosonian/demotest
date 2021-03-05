@@ -60,7 +60,7 @@ class DemoApp extends Component{
         this.renderer = new THREE.WebGLRenderer();
 		this.renderer.setPixelRatio( window.devicePixelRatio );
 		this.renderer.setSize( 1920, 800);
-		this.mount.appendChild( this.renderer.domElement );
+		this.mainBody.appendChild( this.renderer.domElement );
         this.sceneGrid = new THREE.GridHelper(50,50)
         this.scene.add(this.sceneGrid)
 
