@@ -47,7 +47,6 @@ class DemoApp extends Component{
 
     componentDidMount(){     
         this.loadRef()
-
         this.deployState();
         const aspect = 1920 / 800;
 		this.camera1 = new THREE.PerspectiveCamera( 
@@ -455,6 +454,7 @@ class DemoApp extends Component{
     render(){
        
         console.log("DemoApp render")
+        console.log(this.state.mainCanvasRef)
         let boxesSetting=[
             {
                 boxID:'A',
