@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import * as THREE from 'three';
-import orbControls from './OrbitControls';
+//import * as THREE from 'three';
+//import orbControls from './OrbitControls';
 //import Stats from 'stats.js';
 import {DnDContainer, DnDLayout} from 'dnd-box'
 //import OrbitControls from './OrbitControls';
@@ -47,69 +47,7 @@ class DemoApp extends Component{
 
     componentDidMount(){     
       
-        //this.deployState();
-        const aspect = 1920 / 800;
-		this.camera1 = new THREE.PerspectiveCamera( 
-            100,
-            aspect,
-            0.1,
-            1000 
-        );	
-		this.scene = new THREE.Scene();
-        this.camera1.position.set( - 20, 20, 20 );
-		this.scene.background = new THREE.Color( 0xf0f0f0 );
-        this.createPlane(1, 20, 20,'chocolate',new THREE.Vector3( -20, 10, 0 ),new THREE.Euler( 0, - 90 * THREE.MathUtils.DEG2RAD, 0 ))
-        this.createPlane(2, 10, 10,'chocolate',new THREE.Vector3( 20, 10, 0 ),new THREE.Euler( 0, - 90 * THREE.MathUtils.DEG2RAD, 0 ))
-        this.renderer = new THREE.WebGLRenderer();
-		this.renderer.setPixelRatio( window.devicePixelRatio );
-		this.renderer.setSize( 1920, 800);
-        
-        this.sceneGrid = new THREE.GridHelper(50,50)
-        this.scene.add(this.sceneGrid)
 
-        this.camera2 = new THREE.PerspectiveCamera(
-            70,
-            200 /200,
-            0.1,
-            1000
-        )
-        this.camera2.position.z =20
-        this.camera2.position.x =0
-        this.camera2.position.y =1
-        this.camera2.lookAt(0,0,0)
-        this.renderer2 = new THREE.WebGLRenderer()
-        this.renderer2.setClearColor(0xeeeeee, 1.0) 
-
-        this.camera3 = new THREE.PerspectiveCamera(
-            70,
-            200 / 200,
-            0.1,
-            1000
-        )
-        this.camera3.position.z =0
-        this.camera3.position.x =-20
-        this.camera3.position.y =1
-        this.camera3.lookAt(0,0,0)
-        this.renderer3 = new THREE.WebGLRenderer()
-        this.renderer3.setClearColor(0xeeeeee, 1.0)
-
-        this.camera4 = new THREE.PerspectiveCamera(
-            70,
-            200 / 200,
-            0.1,
-            1000
-        )
-        this.camera4.position.z =0
-        this.camera4.position.x =0
-        this.camera4.position.y =20
-        this.camera4.lookAt(0,0,0)
-        this.renderer4 = new THREE.WebGLRenderer()
-        this.renderer4.setClearColor(0xeeeeee, 1.0)
-
-        this.cameraControl1 = new orbControls(this.camera1,this.renderer.domElement)
-        this.mainBody.appendChild(this.renderer.domElement)
-        //this.loadRef()
-        //this.animate()
     }
 
     componentDidUpdate(preProps, preState){
@@ -138,26 +76,7 @@ class DemoApp extends Component{
     //     window.requestAnimationFrame(this.animate)
     // }
 
-    createPlane=(ID,width, height, cssColor, pos, rot)=>{   
-        let material = new THREE.MeshBasicMaterial( { color: 0x0000ff, side: THREE.DoubleSide } );
-        let geometry = new THREE.PlaneGeometry( width, height);
-        switch(ID){
-            case 1:
-                this.mesh1 = new THREE.Mesh( geometry, material );
-		        this.mesh1.position.copy( pos );
-                this.mesh1.name = 'plain1'
-		        this.scene.add( this.mesh1 );
-                break
-            case 2:
-                this.mesh2 = new THREE.Mesh( geometry, material );
-		        this.mesh2.position.copy( pos );
-                this.mesh2.name = 'plain2'
-		        this.scene.add( this.mesh2 );
-                break
-            default :
-                break
-        }	
-    }
+    
 
     showContainerClick=()=>{
         this.setState({
@@ -350,22 +269,21 @@ class DemoApp extends Component{
 
         return(
             <div ref={(mainBody)=>{this.mainBody = mainBody}} style={{width:'100%',height:'100%',borderTop:"1px solid black", borderBottom:"1px solid black"}}  >
-                {/* <div style={{width:1000,height:50,left:100,position:'absolute',padding:10}}>
-                    <button style={{float:'left',height:50}} onClick={this.showContainerClick}>Show Default DnDContainer</button>
-                    <div style={{width:350, lineHeight:'50px', float:'right'}}>{"dnd-box demo : used in CAD like application"}</div>
-                </div> */}
+                <div style={{width:1000,height:50,left:100,position:'absolute',padding:10}}>
+                    <div style={{width:350, lineHeight:'50px', float:'right'}}>{"1"}</div>
+                </div>
                 <DnDLayout backgroundColor={'pink'} width={1920} height={800} boxColor={''} boxHeaderColor={''} boxTabColor={''} boxHeaderHoverColor={''} boxTabHoverColor={''} boxTabSelectedColor={''} iconHoverColor={''} boxTabRadius={'0px 10px 0px 0px'} boxesSetting={boxesSetting}  tabHeight={25} getBoxesState={this.getBoxesState}>
                    
                     <DnDContainer containerTabTitle={"Front View"} containerID={1} boxID={'A'}>
-                        <div style={{width:'100%',height:'100%',overflow:'hidden'}} ref={(frontView) => { this.frontView = frontView }}>
+                        <div style={{width:'100%',height:'100%',overflow:'hidden'}} >
                         </div>
                     </DnDContainer>
                     <DnDContainer containerTabTitle={"Side View"} containerID={2} boxID={'B'}>
-                        <div style={{width:'100%',height:'100%',overflow:'hidden'}} ref={(sideView) => { this.sideView = sideView }}>                                 
+                        <div style={{width:'100%',height:'100%',overflow:'hidden'}} >                                 
                         </div>
                     </DnDContainer>
                     <DnDContainer containerTabTitle={"Top View"} containerID={3} boxID={'C'}>
-                        <div style={{width:'100%',height:'100%',overflow:'hidden'}} ref={(topView) => { this.topView = topView }}>                                 
+                        <div style={{width:'100%',height:'100%',overflow:'hidden'}} >                                 
                         </div>
                     </DnDContainer>
                     <DnDContainer containerTabTitle={"Rotation Speed"} containerID={4} boxID={'D'}>             
