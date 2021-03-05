@@ -444,7 +444,7 @@ class DemoApp extends Component{
     render(){
        
         console.log("DemoApp render")
-        console.log(this.state.mainCanvasRef)
+        //console.log(this.state.mainCanvasRef)
         let boxesSetting=[
             {
                 boxID:'A',
