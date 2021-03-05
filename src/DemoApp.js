@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import * as THREE from 'three';
 import orbControls from './OrbitControls';
-import Stats from 'stats.js';
+//import Stats from 'stats.js';
 import {DnDContainer, DnDLayout} from 'dnd-box'
-import OrbitControls from './OrbitControls';
+//import OrbitControls from './OrbitControls';
 //import RotationMenu from './RotationMenu'
 //import SelectedObjInfo from './SelectedObjInfo'
 
@@ -47,7 +47,7 @@ class DemoApp extends Component{
 
     componentDidMount(){     
       
-        this.deployState();
+        //this.deployState();
         const aspect = 1920 / 800;
 		this.camera1 = new THREE.PerspectiveCamera( 
             100,
@@ -64,11 +64,8 @@ class DemoApp extends Component{
 		this.renderer.setPixelRatio( window.devicePixelRatio );
 		this.renderer.setSize( 1920, 800);
         
-		
         this.sceneGrid = new THREE.GridHelper(50,50)
         this.scene.add(this.sceneGrid)
-
-        
 
         this.camera2 = new THREE.PerspectiveCamera(
             70,
@@ -122,66 +119,24 @@ class DemoApp extends Component{
     componentWillUnmount() {
     }
 
-    loadRef=()=>{         
-        this.mainBody.appendChild(this.renderer.domElement)        
-    }
+ 
 
-    resizeFrontView=()=>{
-        if(!this.cameraControl2)
-        {
-            this.cameraControl2 = new OrbitControls(this.camera2,this.renderer2.domElement)   
-        }
-        this.cameraControl2.enableRotate = false
+    // animate=()=>{
 
-        this.renderer2.setSize(this.state.frontViewSize.w-1, this.state.frontViewSize.h-1)
-        this.frontView.appendChild( this.renderer2.domElement )
-
-    }
-
-    resizeSideView=()=>{
-        if(!this.cameraControl3)
-        {
-            this.cameraControl3 = new OrbitControls(this.camera3,this.renderer3.domElement)   
-        }
-        this.cameraControl3.enableRotate = false
-        this.renderer3.setSize(this.state.sideViewSize.w-1, this.state.sideViewSize.h-1)
-        this.sideView.appendChild( this.renderer3.domElement )
-    }
-
-    resizeTopView=()=>{
-        if(!this.cameraControl4)
-        {
-            this.cameraControl4 = new OrbitControls(this.camera4,this.renderer4.domElement)   
-        }
-        this.cameraControl4.enableRotate = false
-        this.renderer4.setSize(this.state.topViewSize.w-1, this.state.topViewSize.h-1)
-        this.topView.appendChild( this.renderer4.domElement )
-    }
-
-    deployState = () => {
-        this.stats = new Stats()
-        this.stats.setMode(0)
-        this.stats.domElement.style.position = 'absolute'  
-        this.mainBody.appendChild(this.stats.domElement)
-    }
-
-    animate=()=>{
-        
-
-        this.stats.begin();
-        this.renderer.render(this.scene, this.camera1)
-        this.renderer2.render(this.scene, this.camera2)
-        this.renderer3.render(this.scene, this.camera3)
-        this.renderer4.render(this.scene, this.camera4)
-        this.mesh1.rotation.x += this.state.rotationMesh1.x
-        this.mesh1.rotation.y += this.state.rotationMesh1.y
-        this.mesh1.rotation.z += this.state.rotationMesh1.z
-        this.mesh2.rotation.x += this.state.rotationMesh2.x
-        this.mesh2.rotation.y += this.state.rotationMesh2.y
-        this.mesh2.rotation.z += this.state.rotationMesh2.z
-        this.stats.end();
-        window.requestAnimationFrame(this.animate)
-    }
+    //     this.stats.begin();
+    //     this.renderer.render(this.scene, this.camera1)
+    //     this.renderer2.render(this.scene, this.camera2)
+    //     this.renderer3.render(this.scene, this.camera3)
+    //     this.renderer4.render(this.scene, this.camera4)
+    //     this.mesh1.rotation.x += this.state.rotationMesh1.x
+    //     this.mesh1.rotation.y += this.state.rotationMesh1.y
+    //     this.mesh1.rotation.z += this.state.rotationMesh1.z
+    //     this.mesh2.rotation.x += this.state.rotationMesh2.x
+    //     this.mesh2.rotation.y += this.state.rotationMesh2.y
+    //     this.mesh2.rotation.z += this.state.rotationMesh2.z
+    //     this.stats.end();
+    //     window.requestAnimationFrame(this.animate)
+    // }
 
     createPlane=(ID,width, height, cssColor, pos, rot)=>{   
         let material = new THREE.MeshBasicMaterial( { color: 0x0000ff, side: THREE.DoubleSide } );
@@ -214,142 +169,142 @@ class DemoApp extends Component{
         })
     }
 
-    threeDLayerMouseDown=(e)=>{
-        //e.preventDefault()
-        //e.stopPropagation()
-        let result = this.detectObjectSelectedOrNot(e)
-        if(result && this.state.selectedObjInfo.name === result.name)
-        {
-            if(result.name === "plain1")
-            {
-                this.selectedObjectPaintedOrNot(this.mesh1,false)                
-            }
+    // threeDLayerMouseDown=(e)=>{
+    //     //e.preventDefault()
+    //     //e.stopPropagation()
+    //     let result = this.detectObjectSelectedOrNot(e)
+    //     if(result && this.state.selectedObjInfo.name === result.name)
+    //     {
+    //         if(result.name === "plain1")
+    //         {
+    //             this.selectedObjectPaintedOrNot(this.mesh1,false)                
+    //         }
             
-        }
-        else if(result && this.state.selectedObjInfo.name !== result.name)
-        {
-            if(result.name === "plain1")
-            {
-                this.selectedObjectPaintedOrNot(this.mesh1,true) 
-                this.selectedObjectPaintedOrNot(this.mesh2,false)
-            }
-            else
-            {
-                this.selectedObjectPaintedOrNot(this.mesh1,false) 
-                this.selectedObjectPaintedOrNot(this.mesh2,true)
-            }
+    //     }
+    //     else if(result && this.state.selectedObjInfo.name !== result.name)
+    //     {
+    //         if(result.name === "plain1")
+    //         {
+    //             this.selectedObjectPaintedOrNot(this.mesh1,true) 
+    //             this.selectedObjectPaintedOrNot(this.mesh2,false)
+    //         }
+    //         else
+    //         {
+    //             this.selectedObjectPaintedOrNot(this.mesh1,false) 
+    //             this.selectedObjectPaintedOrNot(this.mesh2,true)
+    //         }
 
-            let obj = {
-                name:result.name,
-                type:result.type,
-                position:{
-                    x:result.position.x,
-                    y:result.position.y,
-                    z:result.position.z
-                },
-                scale:{
-                    width:result.geometry.parameters.width,
-                    height:result.geometry.parameters.height,
-                    depth:result.geometry.parameters.depth?result.geometry.parameters.depth:0
-                }
-            }
+    //         let obj = {
+    //             name:result.name,
+    //             type:result.type,
+    //             position:{
+    //                 x:result.position.x,
+    //                 y:result.position.y,
+    //                 z:result.position.z
+    //             },
+    //             scale:{
+    //                 width:result.geometry.parameters.width,
+    //                 height:result.geometry.parameters.height,
+    //                 depth:result.geometry.parameters.depth?result.geometry.parameters.depth:0
+    //             }
+    //         }
             
-            this.setState({
-                selectedObjInfo:obj
-            })         
-        }
-        else
-        {
-            let obj = {
-                name:null,
-                type:null,
-                position:null,
-                scale:null
-            }
+    //         this.setState({
+    //             selectedObjInfo:obj
+    //         })         
+    //     }
+    //     else
+    //     {
+    //         let obj = {
+    //             name:null,
+    //             type:null,
+    //             position:null,
+    //             scale:null
+    //         }
 
-            this.selectedObjectPaintedOrNot(this.mesh1,false) 
-            this.selectedObjectPaintedOrNot(this.mesh2,false)
+    //         this.selectedObjectPaintedOrNot(this.mesh1,false) 
+    //         this.selectedObjectPaintedOrNot(this.mesh2,false)
 
-            this.setState({
-                selectedObjInfo:obj
-            })
-        }
-        console.log(result)
-    }
+    //         this.setState({
+    //             selectedObjInfo:obj
+    //         })
+    //     }
+    //     console.log(result)
+    // }
 
-    detectObjectSelectedOrNot=(e)=>{
-        const rayCaster = new THREE.Raycaster()
-        const mouseToken = new THREE.Vector2()
+    // detectObjectSelectedOrNot=(e)=>{
+    //     const rayCaster = new THREE.Raycaster()
+    //     const mouseToken = new THREE.Vector2()
 
-        if(this.state.mainCanvasRef)
-        {            
-            let rect = this.state.mainCanvasRef.getBoundingClientRect()
-            mouseToken.x = ((e.clientX-rect.left)/this.state.mainCanvasRef.clientWidth)*2-1
-            mouseToken.y = -((e.clientY-rect.top)/this.state.mainCanvasRef.clientHeight)*2+1
-            rayCaster.setFromCamera(mouseToken, this.camera1)
+    //     if(this.state.mainCanvasRef)
+    //     {            
+    //         let rect = this.state.mainCanvasRef.getBoundingClientRect()
+    //         mouseToken.x = ((e.clientX-rect.left)/this.state.mainCanvasRef.clientWidth)*2-1
+    //         mouseToken.y = -((e.clientY-rect.top)/this.state.mainCanvasRef.clientHeight)*2+1
+    //         rayCaster.setFromCamera(mouseToken, this.camera1)
     
-            let intersects = rayCaster.intersectObjects(this.scene.children)
+    //         let intersects = rayCaster.intersectObjects(this.scene.children)
         
-            if(intersects.length>0)
-            {
-                for(var i=0; i <intersects.length; i++)
-                {
-                    if(intersects[i].object.type === 'Mesh')
-                    {
-                        return intersects[i].object
-                    }   
-                }
-            }
-            else
-            {
-                return null
-            }
-        }
-    }
+    //         if(intersects.length>0)
+    //         {
+    //             for(var i=0; i <intersects.length; i++)
+    //             {
+    //                 if(intersects[i].object.type === 'Mesh')
+    //                 {
+    //                     return intersects[i].object
+    //                 }   
+    //             }
+    //         }
+    //         else
+    //         {
+    //             return null
+    //         }
+    //     }
+    // }
 
-    selectedObjectPaintedOrNot(object3D,toggle)
-    {
-        if(toggle)
-        {
-            object3D.material.color.set(0x13D73F)
-        }
-        else
-        {
-            object3D.material.color.set(0x0000ff)
-        }
-    }
+    // selectedObjectPaintedOrNot(object3D,toggle)
+    // {
+    //     if(toggle)
+    //     {
+    //         object3D.material.color.set(0x13D73F)
+    //     }
+    //     else
+    //     {
+    //         object3D.material.color.set(0x0000ff)
+    //     }
+    // }
 
     
 
-    getBoxesState=(msg)=>{
-        if(this.frontView)
-        {
-            this.resizeFrontView()
-        }
-    }
+    // getBoxesState=(msg)=>{
+    //     if(this.frontView)
+    //     {
+    //         this.resizeFrontView()
+    //     }
+    // }
 
-    returnRotation=(msg)=>{
-        switch(msg.ID){
-            case 1 :
-                if(this.state.rotationMesh1 !== msg.values)
-                {
-                    this.setState({
-                        rotationMesh1:msg.values
-                    })
-                }
-                break
-            case 2 :
-                if(this.state.rotationMesh2 !== msg.values)
-                {
-                    this.setState({
-                        rotationMesh2:msg.values
-                    })
-                }
-                break
-            default:
-                break
-        }
-    }
+    // returnRotation=(msg)=>{
+    //     switch(msg.ID){
+    //         case 1 :
+    //             if(this.state.rotationMesh1 !== msg.values)
+    //             {
+    //                 this.setState({
+    //                     rotationMesh1:msg.values
+    //                 })
+    //             }
+    //             break
+    //         case 2 :
+    //             if(this.state.rotationMesh2 !== msg.values)
+    //             {
+    //                 this.setState({
+    //                     rotationMesh2:msg.values
+    //                 })
+    //             }
+    //             break
+    //         default:
+    //             break
+    //     }
+    // }
 
     render(){
        
@@ -394,12 +349,12 @@ class DemoApp extends Component{
         ]
 
         return(
-            <div ref={(mainBody)=>{this.mainBody = mainBody}} style={{width:'100%',height:'100%',borderTop:"1px solid black", borderBottom:"1px solid black"}}  onMouseDown={this.threeDLayerMouseDown}>
-                <div style={{width:1000,height:50,left:100,position:'absolute',padding:10}}>
+            <div ref={(mainBody)=>{this.mainBody = mainBody}} style={{width:'100%',height:'100%',borderTop:"1px solid black", borderBottom:"1px solid black"}}  >
+                {/* <div style={{width:1000,height:50,left:100,position:'absolute',padding:10}}>
                     <button style={{float:'left',height:50}} onClick={this.showContainerClick}>Show Default DnDContainer</button>
                     <div style={{width:350, lineHeight:'50px', float:'right'}}>{"dnd-box demo : used in CAD like application"}</div>
-                </div>
-                <DnDLayout backgroundColor={'pink'} width={1920} height={800} boxColor={''} boxHeaderColor={''} boxTabColor={''} boxHeaderHoverColor={''} boxTabHoverColor={''} boxTabSelectedColor={''} iconHoverColor={''} boxTabRadius={'0px 10px 0px 0px'} boxesSetting={boxesSetting} openContainer={this.state.showContainer}  tabHeight={25} getBoxesState={this.getBoxesState}>
+                </div> */}
+                <DnDLayout backgroundColor={'pink'} width={1920} height={800} boxColor={''} boxHeaderColor={''} boxTabColor={''} boxHeaderHoverColor={''} boxTabHoverColor={''} boxTabSelectedColor={''} iconHoverColor={''} boxTabRadius={'0px 10px 0px 0px'} boxesSetting={boxesSetting}  tabHeight={25} getBoxesState={this.getBoxesState}>
                    
                     <DnDContainer containerTabTitle={"Front View"} containerID={1} boxID={'A'}>
                         <div style={{width:'100%',height:'100%',overflow:'hidden'}} ref={(frontView) => { this.frontView = frontView }}>
