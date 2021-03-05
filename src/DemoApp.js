@@ -410,7 +410,7 @@ class DemoApp extends Component{
     render(){
        
         console.log("DemoApp render")
-        console.log("v10")
+        console.log("v11")
        
         //console.log(this.state.selectedObjInfo)
         let boxesSetting=[
@@ -455,7 +455,7 @@ class DemoApp extends Component{
             <div ref={(mainBody)=>{this.mainBody = mainBody}} style={{border:"1px solid black"}}  onMouseDown={this.threeDLayerMouseDown}>
                 <DnDLayout backgroundColor={'pink'} width={1920} height={800} boxColor={''} boxHeaderColor={''} boxTabColor={''} boxHeaderHoverColor={''} boxTabHoverColor={''} boxTabSelectedColor={''} iconHoverColor={''} boxTabRadius={'0px 10px 0px 0px'} boxesSetting={boxesSetting} openContainer={this.state.showContainer}  tabHeight={25} getBoxesState={this.getBoxesState}>
                     <DnDBackgroundComponent>
-                        <div style={{width:1800,height:700}} ref={(mount) => { this.mount = mount }}>
+                        <div style={{width:'100%',height:'100%'}} ref={(mount) => { this.mount = mount }}>
                         </div>
                     </DnDBackgroundComponent>
                     <DnDContainer containerTabTitle={"Front View"} containerID={1} boxID={'A'}>
