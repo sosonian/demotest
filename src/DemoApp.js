@@ -261,7 +261,7 @@ class DemoApp extends Component{
 
     createPlane=(ID,width, height, cssColor, pos, rot)=>{   
         let material = new THREE.MeshBasicMaterial( { color: 0x0000ff, side: THREE.DoubleSide } );
-        let geometry = new THREE.PlaneGeometry( width, height );
+        let geometry = new THREE.PlaneGeometry( width, height);
         switch(ID){
             case 1:
                 this.mesh1 = new THREE.Mesh( geometry, material );
@@ -274,6 +274,8 @@ class DemoApp extends Component{
 		        this.mesh2.position.copy( pos );
                 this.mesh2.name = 'plain2'
 		        this.scene.add( this.mesh2 );
+                break
+            default :
                 break
         }	
     }
@@ -363,9 +365,9 @@ class DemoApp extends Component{
         
         if(intersects.length>0)
         {
-            for(var i =0; i <intersects.length; i++)
+            for(var i=0; i <intersects.length; i++)
             {
-                if(intersects[i].object.type == 'Mesh')
+                if(intersects[i].object.type === 'Mesh')
                 {
                     return intersects[i].object
                 }   
@@ -415,6 +417,8 @@ class DemoApp extends Component{
                         rotationMesh2:msg.values
                     })
                 }
+                break
+            default:
                 break
         }
     }

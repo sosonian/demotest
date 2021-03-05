@@ -54,6 +54,8 @@ class RotationMenu extends Component{
                     rotationMesh2:obj.values
                 })
                 break
+            default:
+                break
         }
 
         this.props.returnRotation(obj)
