@@ -270,7 +270,7 @@ class DemoApp extends Component{
         return(
             <div ref={(mainBody)=>{this.mainBody = mainBody}} style={{width:'100%',height:'100%',borderTop:"1px solid black", borderBottom:"1px solid black"}}  >
                 <div style={{width:1000,height:50,left:100,position:'absolute',padding:10}}>
-                    <div style={{width:350, lineHeight:'50px', float:'right'}}>{"1"}</div>
+                    <div style={{width:350, lineHeight:'50px', float:'right'}}>{"2"}</div>
                 </div>
                 <DnDLayout backgroundColor={'pink'} width={1920} height={800} boxColor={''} boxHeaderColor={''} boxTabColor={''} boxHeaderHoverColor={''} boxTabHoverColor={''} boxTabSelectedColor={''} iconHoverColor={''} boxTabRadius={'0px 10px 0px 0px'} boxesSetting={boxesSetting}  tabHeight={25} getBoxesState={this.getBoxesState}>
                    
@@ -282,16 +282,7 @@ class DemoApp extends Component{
                         <div style={{width:'100%',height:'100%',overflow:'hidden'}} >                                 
                         </div>
                     </DnDContainer>
-                    <DnDContainer containerTabTitle={"Top View"} containerID={3} boxID={'C'}>
-                        <div style={{width:'100%',height:'100%',overflow:'hidden'}} >                                 
-                        </div>
-                    </DnDContainer>
-                    <DnDContainer containerTabTitle={"Rotation Speed"} containerID={4} boxID={'D'}>             
-                             
-                    </DnDContainer>
-                    <DnDContainer containerTabTitle={"Obj Info"} containerID={5} boxID={'D'}>
-                      
-                    </DnDContainer>        
+                       
                 </DnDLayout>
             </div>
         )
