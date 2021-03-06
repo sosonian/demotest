@@ -43,6 +43,7 @@ class DemoApp extends Component{
     }
 
     componentDidMount(){     
+        this.detectRef()
         //this.deployState();
         const aspect = 1920 / 800;
 		this.camera1 = new THREE.PerspectiveCamera( 
@@ -126,6 +127,12 @@ class DemoApp extends Component{
     }
 
     componentWillUnmount() {
+    }
+
+    detectRef=()=>{
+        console.log("bodyRef : ", this.mainBody)
+        console.log("mainRef : ",this.mount)
+        console.log("frontRef : ",this.frontView)
     }
 
     resizeFrontView=()=>{
@@ -410,7 +417,7 @@ class DemoApp extends Component{
     render(){
        
         console.log("DemoApp render")
-        console.log("v11")
+        console.log("v12")
        
         //console.log(this.state.selectedObjInfo)
         let boxesSetting=[
