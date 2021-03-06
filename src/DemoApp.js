@@ -111,7 +111,8 @@ class DemoApp extends Component{
     }
 
     componentDidUpdate(preProps, preState){
-        if(preState.mainView !== 1)
+        
+        if(preState.mainView === 0)
         {
             this.setMainView()
         }
@@ -145,7 +146,6 @@ class DemoApp extends Component{
     setMainView=()=>{
         if(this.mainView)
         {
-            this.mainView.appendChild( this.renderer.domElement )
             this.setState({mainView:1})
         }
     }
@@ -190,6 +190,12 @@ class DemoApp extends Component{
     // }
 
     animate=()=>{
+        if(this.state.mainView === 1)
+        {
+            this.mainView.appendChild( this.renderer.domElement )
+            this.setState({mainView:2})
+        }
+        
         if(this.frontView)
         {
             if(this.frontView.clientWidth !== this.state.frontViewSize.w || this.frontView.clientHeight !== this.state.frontViewSize.h)
@@ -441,7 +447,7 @@ class DemoApp extends Component{
     render(){
        
         console.log("DemoApp render")
-        console.log("v13")
+        console.log("v14")
        
         //console.log(this.state.selectedObjInfo)
         let boxesSetting=[
