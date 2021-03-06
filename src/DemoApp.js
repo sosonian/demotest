@@ -11,6 +11,7 @@ class DemoApp extends Component{
     constructor(props) {
         super(props)
         this.state={
+            mainView:0,
             frontViewSize:{
                 w:null,
                 h:null
@@ -60,7 +61,7 @@ class DemoApp extends Component{
         this.renderer = new THREE.WebGLRenderer();
 		this.renderer.setPixelRatio( window.devicePixelRatio );
 		this.renderer.setSize( 1920, 800);
-		this.mount.appendChild( this.renderer.domElement );
+		//this.mount.appendChild( this.renderer.domElement );
         this.sceneGrid = new THREE.GridHelper(50,50)
         this.scene.add(this.sceneGrid)
 
@@ -110,6 +111,11 @@ class DemoApp extends Component{
     }
 
     componentDidUpdate(preProps, preState){
+        if(preState.mainView !== 1)
+        {
+            this.setMainView()
+        }
+
         if(preState.frontViewSize !== this.state.frontViewSize && this.frontView)
         {
             this.resizeFrontView()
@@ -131,9 +137,17 @@ class DemoApp extends Component{
 
     detectRef=()=>{
         console.log("bodyRef : ", this.mainBody)
-        console.log("mainRef : ",this.mount)
+        console.log("mainRef : ",this.mainView)
         console.log("frontRef : ",this.frontView)
         console.log("sideRef : ", this.sideView)
+    }
+
+    setMainView=()=>{
+        if(this.mainView)
+        {
+            this.mainView.appendChild( this.renderer.domElement )
+            this.setState({mainView:1})
+        }
     }
 
     resizeFrontView=()=>{
@@ -350,21 +364,30 @@ class DemoApp extends Component{
     detectObjectSelectedOrNot=(e)=>{
         const rayCaster = new THREE.Raycaster()
         const mouseToken = new THREE.Vector2()
-        this.rect = this.mount.getBoundingClientRect()
-        mouseToken.x = ((e.clientX-this.rect.left)/this.mount.clientWidth)*2-1
-        mouseToken.y = -((e.clientY-this.rect.top)/this.mount.clientHeight)*2+1
-        rayCaster.setFromCamera(mouseToken, this.camera1)
-    
-        let intersects = rayCaster.intersectObjects(this.scene.children)
-        
-        if(intersects.length>0)
+        let rect
+        if(this.mainView)
         {
-            for(var i =0; i <intersects.length; i++)
+            rect = this.mainView.getBoundingClientRect()
+            //this.rect = this.mount.getBoundingClientRect()
+            mouseToken.x = ((e.clientX-rect.left)/this.mainView.clientWidth)*2-1
+            mouseToken.y = -((e.clientY-rect.top)/this.mainView.clientHeight)*2+1
+            rayCaster.setFromCamera(mouseToken, this.camera1)
+    
+            let intersects = rayCaster.intersectObjects(this.scene.children)
+        
+            if(intersects.length>0)
             {
-                if(intersects[i].object.type === 'Mesh')
+                for(var i =0; i <intersects.length; i++)
                 {
-                    return intersects[i].object
-                }   
+                    if(intersects[i].object.type === 'Mesh')
+                    {
+                        return intersects[i].object
+                    }   
+                }
+            }
+            else
+            {
+                return null
             }
         }
         else
@@ -463,7 +486,7 @@ class DemoApp extends Component{
             <div ref={(mainBody)=>{this.mainBody = mainBody}} style={{border:"1px solid black"}}  onMouseDown={this.threeDLayerMouseDown}>
                 <DnDLayout backgroundColor={'pink'} width={1920} height={800} boxColor={''} boxHeaderColor={''} boxTabColor={''} boxHeaderHoverColor={''} boxTabHoverColor={''} boxTabSelectedColor={''} iconHoverColor={''} boxTabRadius={'0px 10px 0px 0px'} boxesSetting={boxesSetting} openContainer={this.state.showContainer}  tabHeight={25} getBoxesState={this.getBoxesState}>
                     <DnDBackgroundComponent>
-                        <div style={{width:'100%',height:'100%'}} ref={(mount) => { this.mount = mount }}>
+                        <div style={{width:'100%',height:'100%'}} ref={(mainView) => { this.mainView = mainView }}>
                         </div>
                     </DnDBackgroundComponent>
                     <DnDContainer containerTabTitle={"Front View"} containerID={1} boxID={'A'}>
