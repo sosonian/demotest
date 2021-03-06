@@ -133,6 +133,7 @@ class DemoApp extends Component{
         console.log("bodyRef : ", this.mainBody)
         console.log("mainRef : ",this.mount)
         console.log("frontRef : ",this.frontView)
+        console.log("sideRef : ", this.sideView)
     }
 
     resizeFrontView=()=>{
