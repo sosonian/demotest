@@ -182,7 +182,7 @@ class DemoApp extends Component{
         {
             if(this.mainView)
             {
-                this.mainView.appendChild( this.renderer.domElement )
+                //this.mainView.appendChild( this.renderer.domElement )
                 this.setState({mainView:1})
             }     
         }
@@ -439,7 +439,7 @@ class DemoApp extends Component{
     render(){
        
         console.log("DemoApp render")
-        console.log("v17")
+        console.log("v19")
        
         //console.log(this.state.selectedObjInfo)
         let boxesSetting=[
