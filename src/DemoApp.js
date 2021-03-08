@@ -115,6 +115,9 @@ class DemoApp extends Component{
         this.cameraControl2.enableRotate = false
         this.cameraControl3.enableRotate = false
         this.cameraControl4.enableRotate = false
+        this.cameraControl2.enablePan = false
+        this.cameraControl3.enablePan = false
+        this.cameraControl4.enablePan = false
         this.animate()
     }
 
