@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as THREE from 'three';
 import orbControls from './OrbitControls';
 import Stats from 'stats.js';
-import {DnDContainer, DnDBackgroundComponent, DnDLayout} from 'dnd-box'
+import {DnDContainer, DnDBackground, DnDLayout} from 'dnd-box'
 import OrbitControls from './OrbitControls';
 import RotationMenu from './RotationMenu'
 import SelectedObjInfo from './SelectedObjInfo'
@@ -109,6 +109,12 @@ class DemoApp extends Component{
         this.renderer4.setClearColor(0xeeeeee, 1.0)
 
         this.cameraControl1 = new orbControls(this.camera1,this.renderer.domElement)
+        this.cameraControl2 = new OrbitControls(this.camera2,this.renderer2.domElement)
+        this.cameraControl3 = new OrbitControls(this.camera3,this.renderer3.domElement)
+        this.cameraControl4 = new OrbitControls(this.camera4,this.renderer4.domElement)
+        this.cameraControl2.enableRotate = false
+        this.cameraControl3.enableRotate = false
+        this.cameraControl4.enableRotate = false
         this.animate()
     }
 
@@ -141,33 +147,28 @@ class DemoApp extends Component{
     }
 
     resizeFrontView=()=>{
-        if(!this.cameraControl2)
+        if(this.frontView.children && this.frontView.children.length >0)
         {
-            this.cameraControl2 = new OrbitControls(this.camera2,this.renderer2.domElement)   
+            this.frontView.removeChild(this.frontView.firstChild)
         }
-        this.cameraControl2.enableRotate = false
-
         this.renderer2.setSize(this.state.frontViewSize.w-1, this.state.frontViewSize.h-1)
         this.frontView.appendChild( this.renderer2.domElement )
-
     }
 
     resizeSideView=()=>{
-        if(!this.cameraControl3)
+        if(this.sideView.children && this.sideView.children.length >0)
         {
-            this.cameraControl3 = new OrbitControls(this.camera3,this.renderer3.domElement)   
+            this.sideView.removeChild(this.sideView.firstChild)
         }
-        this.cameraControl3.enableRotate = false
         this.renderer3.setSize(this.state.sideViewSize.w-1, this.state.sideViewSize.h-1)
         this.sideView.appendChild( this.renderer3.domElement )
     }
 
     resizeTopView=()=>{
-        if(!this.cameraControl4)
+        if(this.topView.children && this.topView.children.length >0)
         {
-            this.cameraControl4 = new OrbitControls(this.camera4,this.renderer4.domElement)   
+            this.topView.removeChild(this.topView.firstChild)
         }
-        this.cameraControl4.enableRotate = false
         this.renderer4.setSize(this.state.topViewSize.w-1, this.state.topViewSize.h-1)
         this.topView.appendChild( this.renderer4.domElement )
     }
@@ -457,6 +458,14 @@ class DemoApp extends Component{
         {
             this.resizeFrontView()
         }
+
+        if(this.sideView){
+            this.resizeSideView()
+        }
+
+        if(this.topView){
+            this.resizeTopView()
+        }
     }
 
     returnRotation=(msg)=>{
@@ -529,13 +538,13 @@ class DemoApp extends Component{
             <div ref={(mainBody)=>{this.mainBody = mainBody}} style={{border:"1px solid black"}}  onMouseDown={this.threeDLayerMouseDown}>
                 <div style={{width:1000,height:50,left:100,position:'absolute',padding:10}}>
                     <button style={{float:'left',height:50}} onClick={this.showContainerClick}>Show Default DnDContainer</button>
-                    <div style={{width:500, lineHeight:'50px', float:'right'}}>{"dnd-box demo : used in CAD-like application (dnd-box : v1.0.20)"}</div>
+                    <div style={{width:500, lineHeight:'50px', float:'right'}}>{"dnd-box demo : used in CAD-like application (dnd-box : v1.0.21)"}</div>
                 </div>
                 <DnDLayout backgroundColor={'pink'} width={1920} height={800} boxColor={''} boxHeaderColor={''} boxTabColor={''} boxHeaderHoverColor={''} boxTabHoverColor={''} boxTabSelectedColor={''} iconHoverColor={''} boxTabRadius={'0px 10px 0px 0px'} boxesSetting={boxesSetting} openContainer={this.state.showContainer}  tabHeight={25} getBoxesState={this.getBoxesState}>
-                    <DnDBackgroundComponent dndType={'DnDBackground'}>
+                    <DnDBackground dndType={'DnDBackground'}>
                         <div ref={(mainView) => { this.mainView = mainView }}>
                         </div>
-                    </DnDBackgroundComponent>
+                    </DnDBackground>
                     <DnDContainer containerTabTitle={"Front View"} containerID={1} boxID={'A'}>
                         <div style={{width:'100%',height:'100%',overflow:'hidden'}} ref={(frontView) => { this.frontView = frontView }}>
                         </div>
