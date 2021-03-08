@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as THREE from 'three';
 import orbControls from './OrbitControls';
-//import Stats from 'stats.js';
+import Stats from 'stats.js';
 import {DnDContainer, DnDBackgroundComponent, DnDLayout} from 'dnd-box'
 import OrbitControls from './OrbitControls';
 import RotationMenu from './RotationMenu'
@@ -39,13 +39,15 @@ class DemoApp extends Component{
                 type:null,
                 position:null,
                 scale:null
-            }
+            },
+            selectedObjRotationIno:null,
+            showContainer:null
         }
     }
 
     componentDidMount(){     
         this.detectRef()
-        //this.deployState();
+        this.deployState();
         const aspect = 1920 / 800;
 		this.camera1 = new THREE.PerspectiveCamera( 
             100,
@@ -170,12 +172,12 @@ class DemoApp extends Component{
         this.topView.appendChild( this.renderer4.domElement )
     }
 
-    // deployState = () => {
-    //     this.stats = new Stats()
-    //     this.stats.setMode(0)
-    //     this.stats.domElement.style.position = 'absolute'  
-    //     this.mainBody.appendChild(this.stats.domElement)
-    // }
+    deployState = () => {
+        this.stats = new Stats()
+        this.stats.setMode(0)
+        this.stats.domElement.style.position = 'absolute'  
+        this.mainBody.appendChild(this.stats.domElement)
+    }
 
     animate=()=>{
         if(this.state.mainView === 0)
@@ -263,7 +265,14 @@ class DemoApp extends Component{
             }
         }
 
-        //this.stats.begin();
+        if(this.state.selectedObjInfo.name)
+        {
+            this.setState({
+                selectedObjRotationIno:this.getRotationValue()
+            })
+        }
+
+        this.stats.begin();
         this.renderer.render(this.scene, this.camera1)
         this.renderer2.render(this.scene, this.camera2)
         this.renderer3.render(this.scene, this.camera3)
@@ -274,8 +283,36 @@ class DemoApp extends Component{
         this.mesh2.rotation.x += this.state.rotationMesh2.x
         this.mesh2.rotation.y += this.state.rotationMesh2.y
         this.mesh2.rotation.z += this.state.rotationMesh2.z
-        //this.stats.end();
+
+       
+
+        this.stats.end();
         window.requestAnimationFrame(this.animate)
+    }
+
+    getRotationValue=()=>{
+        if(this.state.selectedObjInfo.name === 'plain1')
+        {
+            let obj = {
+                x:this.mesh1.rotation.x,
+                y:this.mesh1.rotation.y,
+                z:this.mesh1.rotation.z,
+            }
+            return obj
+        }
+        else if(this.state.selectedObjInfo.name === 'plain2')
+        {
+            let obj = {
+                x:this.mesh2.rotation.x,
+                y:this.mesh2.rotation.y,
+                z:this.mesh2.rotation.z,
+            }
+            return obj
+        }
+        else
+        {
+            return null
+        }
     }
 
     createPlane=(ID,width, height, cssColor, pos, rot)=>{   
@@ -297,6 +334,16 @@ class DemoApp extends Component{
             default :
                 break
         }	
+    }
+
+    showContainerClick=()=>{
+        this.setState({
+            showContainer:[1,2,3,4,5]
+        },()=>{
+            this.setState({
+                showContainer:null
+            })
+        })
     }
 
     threeDLayerMouseDown=(e)=>{
@@ -345,6 +392,8 @@ class DemoApp extends Component{
         }
         else
         {
+            this.selectedObjectPaintedOrNot(this.mesh1,false) 
+            this.selectedObjectPaintedOrNot(this.mesh2,false)
             let obj = {
                 name:null,
                 type:null,
@@ -363,6 +412,7 @@ class DemoApp extends Component{
         const rayCaster = new THREE.Raycaster()
         const mouseToken = new THREE.Vector2()
         let rect
+        let output = null
         if(this.mainView)
         {
             rect = this.mainView.getBoundingClientRect()
@@ -372,6 +422,7 @@ class DemoApp extends Component{
             rayCaster.setFromCamera(mouseToken, this.camera1)
     
             let intersects = rayCaster.intersectObjects(this.scene.children)
+            
         
             if(intersects.length>0)
             {
@@ -379,19 +430,14 @@ class DemoApp extends Component{
                 {
                     if(intersects[i].object.type === 'Mesh')
                     {
-                        return intersects[i].object
+                        output = intersects[i].object
                     }   
                 }
             }
-            else
-            {
-                return null
-            }
         }
-        else
-        {
-            return null
-        }
+
+        return output
+      
     }
 
     selectedObjectPaintedOrNot(object3D,toggle)
@@ -439,9 +485,8 @@ class DemoApp extends Component{
     render(){
        
         console.log("DemoApp render")
-        console.log("v30")
-       
-        //console.log(this.state.selectedObjInfo)
+        console.log("v31")
+
         let boxesSetting=[
             {
                 boxID:'A',
@@ -482,6 +527,10 @@ class DemoApp extends Component{
 
         return(       
             <div ref={(mainBody)=>{this.mainBody = mainBody}} style={{border:"1px solid black"}}  onMouseDown={this.threeDLayerMouseDown}>
+                <div style={{width:1000,height:50,left:100,position:'absolute',padding:10}}>
+                    <button style={{float:'left',height:50}} onClick={this.showContainerClick}>Show Default DnDContainer</button>
+                    <div style={{width:350, lineHeight:'50px', float:'right'}}>{"dnd-box demo : used in CAD like application"}</div>
+                </div>
                 <DnDLayout backgroundColor={'pink'} width={1920} height={800} boxColor={''} boxHeaderColor={''} boxTabColor={''} boxHeaderHoverColor={''} boxTabHoverColor={''} boxTabSelectedColor={''} iconHoverColor={''} boxTabRadius={'0px 10px 0px 0px'} boxesSetting={boxesSetting} openContainer={this.state.showContainer}  tabHeight={25} getBoxesState={this.getBoxesState}>
                     <DnDBackgroundComponent dndType={'DnDBackground'}>
                         <div ref={(mainView) => { this.mainView = mainView }}>
@@ -503,7 +552,7 @@ class DemoApp extends Component{
                         <RotationMenu rotationMesh1={this.state.rotationMesh1} rotationMesh2={this.state.rotationMesh2} returnRotation={this.returnRotation}/>          
                     </DnDContainer>
                     <DnDContainer containerTabTitle={"Obj Info"} containerID={5} boxID={'D'}>
-                        <SelectedObjInfo selectedObjInfo={this.state.selectedObjInfo}/>
+                        <SelectedObjInfo selectedObjInfo={this.state.selectedObjInfo} rotationValue={this.state.selectedObjRotationIno}/>
                     </DnDContainer>       
                 </DnDLayout>               
             </div>

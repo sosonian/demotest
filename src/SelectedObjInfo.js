@@ -70,7 +70,20 @@ class SelectedObjInfo extends Component{
                     <div style={rowStyle}>
                         <div style={titleStyle}>{"Depth"}</div>
                         <div>{this.props.selectedObjInfo.scale.depth}</div>
-                    </div>                  
+                    </div>
+                    <div style={headerStyle}>{"Rotation"}</div>
+                    <div style={rowStyle}>
+                        <div style={titleStyle}>{"X Axis"}</div>
+                        <div>{this.props.rotationValue?this.props.rotationValue.x:null}</div>
+                    </div>
+                    <div style={rowStyle}>
+                        <div style={titleStyle}>{"Y Axis"}</div>
+                        <div>{this.props.rotationValue?this.props.rotationValue.y:null}</div>
+                    </div>
+                    <div style={rowStyle}>
+                        <div style={titleStyle}>{"Z Axis"}</div>
+                        <div>{this.props.rotationValue?this.props.rotationValue.z:null}</div>
+                    </div>                    
                 </div>
                 :
                 "None object been selected"           
