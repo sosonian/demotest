@@ -529,7 +529,7 @@ class DemoApp extends Component{
             <div ref={(mainBody)=>{this.mainBody = mainBody}} style={{border:"1px solid black"}}  onMouseDown={this.threeDLayerMouseDown}>
                 <div style={{width:1000,height:50,left:100,position:'absolute',padding:10}}>
                     <button style={{float:'left',height:50}} onClick={this.showContainerClick}>Show Default DnDContainer</button>
-                    <div style={{width:500, lineHeight:'50px', float:'right'}}>{"dnd-box demo : used in CAD like application (dnd-box : v1.0.20)"}</div>
+                    <div style={{width:500, lineHeight:'50px', float:'right'}}>{"dnd-box demo : used in CAD-like application (dnd-box : v1.0.20)"}</div>
                 </div>
                 <DnDLayout backgroundColor={'pink'} width={1920} height={800} boxColor={''} boxHeaderColor={''} boxTabColor={''} boxHeaderHoverColor={''} boxTabHoverColor={''} boxTabSelectedColor={''} iconHoverColor={''} boxTabRadius={'0px 10px 0px 0px'} boxesSetting={boxesSetting} openContainer={this.state.showContainer}  tabHeight={25} getBoxesState={this.getBoxesState}>
                     <DnDBackgroundComponent dndType={'DnDBackground'}>
