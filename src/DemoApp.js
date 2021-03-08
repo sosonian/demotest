@@ -439,7 +439,7 @@ class DemoApp extends Component{
     render(){
        
         console.log("DemoApp render")
-        console.log("v25")
+        console.log("v26")
        
         //console.log(this.state.selectedObjInfo)
         let boxesSetting=[
