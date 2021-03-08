@@ -17,7 +17,7 @@ class SelectedObjInfo extends Component{
     
 
     render(){
-        console.log("SelectedObjInfo render")
+        //console.log("SelectedObjInfo render")
         let headerStyle={
             padding:'10px',
             backgroundColor:'#c1e6e8'
@@ -71,7 +71,7 @@ class SelectedObjInfo extends Component{
                         <div style={titleStyle}>{"Depth"}</div>
                         <div>{this.props.selectedObjInfo.scale.depth}</div>
                     </div>
-                    <div style={headerStyle}>{"Rotation"}</div>
+                    <div style={headerStyle}>{"Rotation Angle"}</div>
                     <div style={rowStyle}>
                         <div style={titleStyle}>{"X Axis"}</div>
                         <div>{this.props.rotationValue?this.props.rotationValue.x:null}</div>
